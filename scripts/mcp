@@ -1,0 +1,3 @@
+#!/bin/bash
+# Super simple MCP alias for Claude to use
+exec "$(dirname "$0")/mcp-client.sh" "$@"

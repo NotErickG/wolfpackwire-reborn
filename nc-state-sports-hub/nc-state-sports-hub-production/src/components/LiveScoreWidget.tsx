@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { espnAPI } from '@/lib/espn-api';
+import React, { useState, useEffect, useCallback } from 'react';
+import { espnAPI, ESPNGame } from '@/lib/espn-api';
 
 interface LiveScoreWidgetProps {
   sport?: 'basketball' | 'football';
@@ -31,13 +31,13 @@ export default function LiveScoreWidget({ sport = 'basketball', className = '' }
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
-  const fetchLiveGames = async () => {
+  const fetchLiveGames = useCallback(async () => {
     try {
-      const games = await espnAPI.getLiveGames(sport);
-      const processedGames = games.map(game => {
+      const games = await espnAPI.getNCStateLiveGames(sport);
+      const processedGames = games.map((game: ESPNGame) => {
         const competition = game.competitions[0];
-        const opponent = competition.competitors.find(c => c.team.id !== '152');
-        const ncState = competition.competitors.find(c => c.team.id === '152');
+        const opponent = competition.competitors.find((c: any) => c.team.id !== '152');
+        const ncState = competition.competitors.find((c: any) => c.team.id === '152');
         
         return {
           id: game.id,
@@ -52,7 +52,7 @@ export default function LiveScoreWidget({ sport = 'basketball', className = '' }
           status: competition.status.type.description,
           period: competition.status.period ? `${competition.status.period}${getPeriodSuffix(competition.status.period)}` : '',
           timeRemaining: competition.status.displayClock || '',
-          venue: competition.venue?.shortName || ''
+          venue: competition.venue?.fullName || ''
         };
       });
       
@@ -63,7 +63,7 @@ export default function LiveScoreWidget({ sport = 'basketball', className = '' }
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [sport]);
 
   const getPeriodSuffix = (period: number): string => {
     if (period === 1) return 'st';
@@ -79,7 +79,7 @@ export default function LiveScoreWidget({ sport = 'basketball', className = '' }
     const interval = setInterval(fetchLiveGames, 30000);
     
     return () => clearInterval(interval);
-  }, [sport]);
+  }, [sport, fetchLiveGames]);
 
   if (isLoading) {
     return (

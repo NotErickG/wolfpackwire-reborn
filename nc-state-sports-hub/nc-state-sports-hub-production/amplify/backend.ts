@@ -3,7 +3,7 @@ import { auth } from './auth/resource';
 import { data } from './data/resource';
 import { storage } from './storage/resource';
 
-export const backend = defineBackend({
+const backend = defineBackend({
   auth,
   data,
   storage,
@@ -65,3 +65,5 @@ if (environment === 'production') {
   // Development environment settings
   console.log('Development environment detected - using cost-optimized settings');
 }
+
+export { backend };

@@ -1,5 +1,6 @@
 // Jest setup file for NC State Sports Hub testing
 import '@testing-library/jest-dom';
+import React from 'react';
 
 // Mock AWS Amplify for testing
 jest.mock('aws-amplify', () => ({
@@ -35,7 +36,7 @@ jest.mock('next/router', () => ({
 // Mock next/image
 jest.mock('next/image', () => {
   return function MockImage({ src, alt, ...props }: any) {
-    return <img src={src} alt={alt} {...props} />;
+    return React.createElement('img', { src, alt, ...props });
   };
 });
 

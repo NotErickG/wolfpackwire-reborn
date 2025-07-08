@@ -1,7 +1,7 @@
 import { defineStorage } from '@aws-amplify/backend';
 
 export const storage = defineStorage({
-  name: 'ncstateSportsMedia',
+  name: 'ncstatesportsmedia',
   access: (allow) => ({
     // Public assets - team logos, player photos, etc.
     'public/team-logos/*': [

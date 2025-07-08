@@ -42,6 +42,7 @@ const schema = a.schema({
       highSchool: a.string(),
       photoUrl: a.string(),
       stats: a.json(), // Flexible stats storage
+      statistics: a.hasMany('Statistic', 'playerId'),
       isActive: a.boolean().default(true),
       teamId: a.id().required(),
       team: a.belongsTo('Team', 'teamId'),
@@ -81,6 +82,8 @@ const schema = a.schema({
       overUnder: a.float(),
       teamId: a.id(),
       team: a.belongsTo('Team', 'teamId'),
+      statistics: a.hasMany('Statistic', 'gameId'),
+      events: a.hasMany('Event', 'relatedGameId'),
       lastUpdated: a.datetime(),
       createdAt: a.datetime(),
       updatedAt: a.datetime(),

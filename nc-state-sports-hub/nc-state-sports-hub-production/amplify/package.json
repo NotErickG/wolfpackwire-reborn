@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "name": "amplify-backend",
+  "version": "1.0.0",
+  "description": "AWS Amplify Gen 2 backend configuration",
+  "main": "backend.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@aws-amplify/backend": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

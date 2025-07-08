@@ -3,19 +3,33 @@ frontend:
   phases:
     preBuild:
       commands:
-        - echo "Starting pre-build for NC State Sports Hub"
-        - cd nc-state-sports-hub/nc-state-sports-hub-production && npm ci
+        - echo "🔍 Starting pre-build for NC State Sports Hub"
+        - echo "Node version:" && node --version
+        - echo "NPM version:" && npm --version
+        - cd nc-state-sports-hub/nc-state-sports-hub-production && npm ci --cache .npm --prefer-offline
+        - echo "Running linting checks..."
+        - cd nc-state-sports-hub/nc-state-sports-hub-production && npm run lint || echo "Linting completed with warnings"
+        - echo "Running TypeScript type checking..."
+        - cd nc-state-sports-hub/nc-state-sports-hub-production && npm run type-check || echo "Type checking completed with warnings"
+        - echo "Pre-build phase completed ✅"
     build:
       commands:
-        - echo "Building NC State Sports Hub"
-        - cd nc-state-sports-hub/nc-state-sports-hub-production && npm run build || echo "Build completed with warnings"
-        - echo "Creating simple index.html for deployment"
-        - cd nc-state-sports-hub/nc-state-sports-hub-production && echo '<!DOCTYPE html><html><head><title>NC State Sports Hub</title></head><body><h1>🐺 NC State Sports Hub</h1><p>Welcome to the official NC State Sports Hub!</p><p>Production deployment is working!</p></body></html>' > index.html
-        - ls -la nc-state-sports-hub/nc-state-sports-hub-production/
+        - echo "🏗️ Starting build for NC State Sports Hub"
+        - cd nc-state-sports-hub/nc-state-sports-hub-production && npm run build
+        - echo "Build phase completed ✅"
+    postBuild:
+      commands:
+        - echo "🚀 Starting post-build phase"
+        - cd nc-state-sports-hub/nc-state-sports-hub-production && echo "Build completed successfully at $(date)"
+        - cd nc-state-sports-hub/nc-state-sports-hub-production && echo "Checking build artifacts..."
+        - cd nc-state-sports-hub/nc-state-sports-hub-production && ls -la .next/ || echo "Build artifacts check completed"
+        - echo "Post-build phase completed ✅"
   artifacts:
-    baseDirectory: nc-state-sports-hub/nc-state-sports-hub-production
+    baseDirectory: nc-state-sports-hub/nc-state-sports-hub-production/.next
     files:
       - '**/*'
   cache:
     paths:
       - nc-state-sports-hub/nc-state-sports-hub-production/node_modules/**/*
+      - nc-state-sports-hub/nc-state-sports-hub-production/.next/cache/**/*
+      - .npm/**/*

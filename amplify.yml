@@ -1,0 +1,23 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "Starting pre-build for NC State Sports Hub"
+        - cd nc-state-sports-hub/nc-state-sports-hub-production
+        - npm ci
+    build:
+      commands:
+        - echo "Building NC State Sports Hub"
+        - cd nc-state-sports-hub/nc-state-sports-hub-production
+        - npm run build
+        - echo "Creating simple index.html for deployment"
+        - echo '<!DOCTYPE html><html><head><title>NC State Sports Hub</title></head><body><h1>🐺 NC State Sports Hub</h1><p>Welcome to the official NC State Sports Hub!</p><p>This is a production deployment test.</p></body></html>' > index.html
+        - ls -la
+  artifacts:
+    baseDirectory: nc-state-sports-hub/nc-state-sports-hub-production
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - nc-state-sports-hub/nc-state-sports-hub-production/node_modules/**/*

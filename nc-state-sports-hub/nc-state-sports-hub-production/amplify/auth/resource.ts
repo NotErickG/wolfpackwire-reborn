@@ -28,7 +28,7 @@ This code will expire in 24 hours. If you didn't request this verification, plea
       required: true,
       mutable: true,
     },
-    preferred_username: {
+    preferredUsername: {
       required: false,
       mutable: true,
     },
@@ -69,22 +69,24 @@ This code will expire in 24 hours. If you didn't request this verification, plea
   // User groups for different access levels
   groups: ['fans', 'premium_fans', 'alumni', 'students', 'moderators', 'editors', 'admins'],
   
-  // Multi-factor authentication for admin users
-  multifactor: {
-    mode: 'OPTIONAL',
-    totp: true,
-    sms: false, // Disable SMS to avoid costs
+  userPool: {
+    // Multi-factor authentication for admin users
+    multifactor: {
+      mode: 'OPTIONAL',
+      totp: true,
+      sms: false, // Disable SMS to avoid costs
+    },
+    
+    // Password policy
+    passwordPolicy: {
+      minLength: 8,
+      requireLowercase: true,
+      requireUppercase: true,
+      requireNumbers: true,
+      requireSymbols: false, // Optional for better UX
+    },
+    
+    // Account recovery
+    accountRecovery: 'EMAIL_ONLY',
   },
-  
-  // Password policy
-  passwordPolicy: {
-    minLength: 8,
-    requireLowercase: true,
-    requireUppercase: true,
-    requireNumbers: true,
-    requireSymbols: false, // Optional for better UX
-  },
-  
-  // Account recovery
-  accountRecovery: 'EMAIL_ONLY',
 });

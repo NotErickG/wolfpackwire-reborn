@@ -258,7 +258,7 @@ export default function LoginModal({ isOpen, onClose, onLogin, onSignup }: Login
           <p className="text-xs text-gray-500 text-center">
             {activeTab === 'login' ? (
               <>
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <button
                   onClick={() => handleTabChange('signup')}
                   className="text-[#CC0000] hover:text-red-700 font-medium"

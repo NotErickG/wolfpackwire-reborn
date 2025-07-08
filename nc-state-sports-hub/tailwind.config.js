@@ -9,6 +9,7 @@ module.exports = {
     extend: {
       colors: {
         'nc-red': '#CC0000',
+        'nc-red-dark': '#990000',
       },
     },
   },

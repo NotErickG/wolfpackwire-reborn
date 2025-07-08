@@ -1,0 +1,15 @@
+{
+  "enabled": true,
+  "restart_time": "01:00",
+  "timezone": "EST",
+  "resume_conversation": true,
+  "context": {
+    "session_type": "NC State Sports Hub Development",
+    "role": "Senior Developer Agent",
+    "last_task": "Continue building features via Gemini agents while minimizing Claude usage",
+    "production_url": "https://master.d3m9i7e7z8i0yo.amplifyapp.com",
+    "aws_app_id": "d3m9i7e7z8i0yo",
+    "github_repo": "https://github.com/noterickg/wolfpackwire-reborn.git",
+    "current_focus": "Delegating feature development to Gemini agents with minimal Claude involvement"
+  }
+}

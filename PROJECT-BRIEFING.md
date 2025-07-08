@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-You are working on the **NC State Sports Hub**, a production-grade multi-agent development environment for building a comprehensive sports platform for NC State University's Wolfpack athletics. This is an advanced Next.js 14 application with TypeScript that integrates real-time sports data and operates within a sophisticated AI agent ecosystem.
+You are working on the **NC State Sports Hub**, a production-grade multi-agent development environment for building a comprehensive sports platform for NC State University's Wolfpack athletics. This is an advanced Next.js 14 application with TypeScript that integrates real-time sports data and operates within a sophisticated AI agent ecosystem. This project aims to deliver a cutting-edge sports content experience.
 
 ## Key Project Characteristics
 

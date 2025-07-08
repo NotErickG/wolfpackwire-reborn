@@ -94,11 +94,15 @@ $(find src -type f -name "*.tsx" -o -name "*.ts" | head -10)
 
     log_message "🧠 Sending task to Gemini..."
     
-    # Execute with local Gemini and capture output
+    # Execute with local Gemini and capture output using Gemini 2.5 Flash
     local gemini_output
-    gemini_output=$(echo "$prompt" | gemini 2>&1)
+    if gemini_output=$(echo "$prompt" | timeout 180 gemini -m gemini-2.5-flash --yolo 2>&1); then
+        log_message "✅ Gemini response received"
+    else
+        log_message "⚠️ Gemini command timed out or failed"
+        gemini_output="Gemini execution failed or timed out"
+    fi
     
-    log_message "✅ Gemini response received"
     echo "$gemini_output"
     
     # Check for changes and commit

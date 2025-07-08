@@ -2,7 +2,7 @@
 
 ## Project: NC State Sports Hub
 
-This is a Next.js 14 application with TypeScript for NC State sports content.
+This is a Next.js 14 application with TypeScript for NC State sports content. It provides comprehensive coverage of NC State athletics.
 
 ### Tech Stack
 - Frontend: Next.js 14 + TypeScript + Tailwind CSS

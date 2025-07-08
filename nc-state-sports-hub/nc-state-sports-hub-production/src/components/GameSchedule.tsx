@@ -8,7 +8,7 @@ interface GameScheduleProps {
  * GameSchedule Component for NC State Sports Hub
  * TODO: Implement component functionality
  */
-export default function GameSchedule(props: GameScheduleProps) {
+const GameSchedule: React.FC<GameScheduleProps> = (props) => {
   return (
     <div className="nc-state-component">
       <h2 className="text-xl font-bold text-red-600">
@@ -19,4 +19,6 @@ export default function GameSchedule(props: GameScheduleProps) {
       </p>
     </div>
   );
-}
+};
+
+export default GameSchedule;

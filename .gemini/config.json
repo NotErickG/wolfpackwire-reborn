@@ -1,0 +1,48 @@
+{
+  "permissions": [
+    {
+      "tool": "default_api.list_directory",
+      "args": {}
+    },
+    {
+      "tool": "default_api.read_file",
+      "args": {}
+    },
+    {
+      "tool": "default_api.search_file_content",
+      "args": {}
+    },
+    {
+      "tool": "default_api.glob",
+      "args": {}
+    },
+    {
+      "tool": "default_api.replace",
+      "args": {}
+    },
+    {
+      "tool": "default_api.write_file",
+      "args": {}
+    },
+    {
+      "tool": "default_api.web_fetch",
+      "args": {}
+    },
+    {
+      "tool": "default_api.read_many_files",
+      "args": {}
+    },
+    {
+      "tool": "default_api.run_shell_command",
+      "args": {}
+    },
+    {
+      "tool": "default_api.save_memory",
+      "args": {}
+    },
+    {
+      "tool": "default_api.google_web_search",
+      "args": {}
+    }
+  ]
+}

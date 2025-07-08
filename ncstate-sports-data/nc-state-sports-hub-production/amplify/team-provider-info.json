@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-ncstatesportshubprod-dev-61c8d-authRole",
+      "UnauthRoleArn": "arn:aws:iam::641757434657:role/amplify-ncstatesportshubprod-dev-61c8d-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::641757434657:role/amplify-ncstatesportshubprod-dev-61c8d-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-ncstatesportshubprod-dev-61c8d-deployment",
+      "UnauthRoleName": "amplify-ncstatesportshubprod-dev-61c8d-unauthRole",
+      "StackName": "amplify-ncstatesportshubprod-dev-61c8d",
+      "StackId": "arn:aws:cloudformation:us-east-1:641757434657:stack/amplify-ncstatesportshubprod-dev-61c8d/0ecad8b0-5ac4-11f0-8000-1262719ab1ed",
+      "AmplifyAppId": "dbnttw86cvzng"
+    }
+  }
+}

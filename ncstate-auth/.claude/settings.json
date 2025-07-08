@@ -1,0 +1,53 @@
+{
+  "timeout": {
+    "default": 300000,
+    "max": 600000
+  },
+  "tools": {
+    "bash": {
+      "enabled": true,
+      "maxOutputLength": 500000,
+      "allowedCommands": ["*"]
+    },
+    "edit": {
+      "enabled": true,
+      "autoSave": true
+    },
+    "read": {
+      "enabled": true,
+      "maxFileSize": 1000000
+    },
+    "write": {
+      "enabled": true,
+      "backupOnOverwrite": true
+    }
+  },
+  "automation": {
+    "parallelExecution": true,
+    "batchOperations": true,
+    "autoMemoryCapture": true,
+    "contextWindow": "large"
+  },
+  "aws": {
+    "cliIntegration": true,
+    "amplifyIntegration": true,
+    "costMonitoring": true,
+    "budgetAlert": 5.0
+  },
+  "development": {
+    "hotReload": true,
+    "testAutomation": true,
+    "lintOnSave": true,
+    "typeCheckOnSave": true
+  },
+  "performance": {
+    "cacheEnabled": true,
+    "compressionEnabled": true,
+    "lazyLoading": true
+  },
+  "monitoring": {
+    "performanceTracking": true,
+    "errorReporting": true,
+    "usageAnalytics": true
+  }
+}

@@ -1,0 +1,117 @@
+version: '3.8'
+
+services:
+  frontend-intern:
+    image: node:20-alpine
+    container_name: frontend-intern
+    volumes:
+      - ./:/workspace
+      - ~/.gemini/.env:/app/.env
+    working_dir: /workspace
+    environment:
+      - INTERN_ROLE=frontend
+      - INTERN_FOCUS=react,typescript,tailwind,ui-ux
+      - NODE_ENV=development
+    networks:
+      - nc-state-dev
+    restart: unless-stopped
+    command: sh -c "
+      apk add --no-cache git bash curl &&
+      npm install -g @google-cloud/generative-ai @octokit/rest &&
+      curl -fsSL https://github.com/GoogleCloudPlatform/generative-ai/releases/latest/download/gemini-linux-amd64 -o /usr/local/bin/gemini &&
+      chmod +x /usr/local/bin/gemini &&
+      tail -f /dev/null
+    "
+
+  backend-intern:
+    image: node:20-alpine
+    container_name: backend-intern
+    volumes:
+      - ./:/workspace
+      - ~/.gemini/.env:/app/.env
+    working_dir: /workspace
+    environment:
+      - INTERN_ROLE=backend
+      - INTERN_FOCUS=amplify,dynamodb,graphql,api
+      - NODE_ENV=development
+    networks:
+      - nc-state-dev
+    restart: unless-stopped
+    command: sh -c "
+      apk add --no-cache git bash curl &&
+      npm install -g @google-cloud/generative-ai @aws-amplify/cli &&
+      curl -fsSL https://github.com/GoogleCloudPlatform/generative-ai/releases/latest/download/gemini-linux-amd64 -o /usr/local/bin/gemini &&
+      chmod +x /usr/local/bin/gemini &&
+      tail -f /dev/null
+    "
+
+  auth-intern:
+    image: node:20-alpine
+    container_name: auth-intern
+    volumes:
+      - ./:/workspace
+      - ~/.gemini/.env:/app/.env
+    working_dir: /workspace
+    environment:
+      - INTERN_ROLE=auth
+      - INTERN_FOCUS=cognito,auth-flows,security
+      - NODE_ENV=development
+    networks:
+      - nc-state-dev
+    restart: unless-stopped
+    command: sh -c "
+      apk add --no-cache git bash curl &&
+      npm install -g @google-cloud/generative-ai aws-cli &&
+      curl -fsSL https://github.com/GoogleCloudPlatform/generative-ai/releases/latest/download/gemini-linux-amd64 -o /usr/local/bin/gemini &&
+      chmod +x /usr/local/bin/gemini &&
+      tail -f /dev/null
+    "
+
+  devops-intern:
+    image: node:20-alpine
+    container_name: devops-intern
+    volumes:
+      - ./:/workspace
+      - ~/.gemini/.env:/app/.env
+    working_dir: /workspace
+    environment:
+      - INTERN_ROLE=devops
+      - INTERN_FOCUS=ci-cd,deployment,monitoring,cost-optimization
+      - NODE_ENV=development
+    networks:
+      - nc-state-dev
+    restart: unless-stopped
+    command: sh -c "
+      apk add --no-cache git bash curl docker-cli &&
+      npm install -g @google-cloud/generative-ai &&
+      curl -fsSL https://github.com/GoogleCloudPlatform/generative-ai/releases/latest/download/gemini-linux-amd64 -o /usr/local/bin/gemini &&
+      chmod +x /usr/local/bin/gemini &&
+      tail -f /dev/null
+    "
+
+  # Task orchestrator service
+  task-manager:
+    image: node:20-alpine
+    container_name: task-manager
+    volumes:
+      - ./:/workspace
+      - ~/.gemini/.env:/app/.env
+    working_dir: /workspace
+    environment:
+      - SERVICE_ROLE=task-manager
+      - NODE_ENV=development
+    networks:
+      - nc-state-dev
+    restart: unless-stopped
+    command: sh -c "
+      apk add --no-cache git bash curl jq &&
+      npm install -g @google-cloud/generative-ai &&
+      node scripts/task-manager.js
+    "
+
+networks:
+  nc-state-dev:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

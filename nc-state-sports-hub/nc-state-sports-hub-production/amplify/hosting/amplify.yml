@@ -1,0 +1,62 @@
+version: 1
+applications:
+  - appRoot: .
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - echo "🔍 Starting pre-build phase for NC State Sports Hub"
+            - echo "Node version:" && node --version
+            - echo "NPM version:" && npm --version
+            - echo "Installing dependencies..."
+            - npm ci
+            - echo "Running security audit..."
+            - npm audit --audit-level high || echo "Security audit completed with warnings"
+            - echo "Running linting checks..."
+            - npm run lint:check
+            - echo "Running TypeScript type checking..."
+            - npm run type-check
+            - echo "Pre-build phase completed ✅"
+        build:
+          commands:
+            - echo "🏗️ Starting build phase for NC State Sports Hub"
+            - echo "Building Next.js application..."
+            - npm run build
+            - echo "Running unit tests..."
+            - npm run test -- --passWithNoTests --watchAll=false --coverage
+            - echo "Build phase completed ✅"
+        postBuild:
+          commands:
+            - echo "🚀 Starting post-build phase for NC State Sports Hub"
+            - echo "Build completed successfully at $(date)"
+            - echo "Checking build artifacts..."
+            - ls -la .next/
+            - echo "Post-build phase completed ✅"
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+          - .next/cache/**/*
+    backend:
+      phases:
+        preBuild:
+          commands:
+            - echo "🔧 Starting backend pre-build phase"
+            - echo "Installing Amplify CLI..."
+            - npm install -g @aws-amplify/cli@latest
+            - echo "Backend pre-build phase completed ✅"
+        build:
+          commands:
+            - echo "🏗️ Starting backend build phase"
+            - echo "Deploying backend resources..."
+            - amplify push --yes
+            - echo "Backend build phase completed ✅"
+        postBuild:
+          commands:
+            - echo "🔍 Starting backend post-build phase"
+            - echo "Running backend health checks..."
+            - amplify status
+            - echo "Backend post-build phase completed ✅"

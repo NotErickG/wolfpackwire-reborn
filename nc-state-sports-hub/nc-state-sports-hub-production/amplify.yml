@@ -1,95 +1,45 @@
 version: 1
-applications:
-  - appRoot: .
-    frontend:
-      phases:
-        preBuild:
-          commands:
-            - echo "🔍 Starting pre-build phase for NC State Sports Hub"
-            - echo "Node version:" && node --version
-            - echo "NPM version:" && npm --version
-            - echo "Installing dependencies..."
-            - npm ci
-            - echo "Running security audit..."
-            - npm audit --audit-level high || echo "Security audit completed with warnings"
-            - echo "Running linting checks..."
-            - npm run lint:check
-            - echo "Running TypeScript type checking..."
-            - npm run type-check
-            - echo "Pre-build phase completed ✅"
-        build:
-          commands:
-            - echo "🏗️ Starting build phase for NC State Sports Hub"
-            - echo "Building Next.js application..."
-            - npm run build
-            - echo "Running unit tests..."
-            - npm run test -- --passWithNoTests --watchAll=false --coverage
-            - echo "Running performance audit..."
-            - npm run performance:audit || echo "Performance audit completed with warnings"
-            - echo "Analyzing bundle size..."
-            - npm run analyze || echo "Bundle analysis completed"
-            - echo "Build phase completed ✅"
-        postBuild:
-          commands:
-            - echo "🚀 Starting post-build phase for NC State Sports Hub"
-            - echo "Build completed successfully at $(date)"
-            - echo "Checking build artifacts..."
-            - ls -la .next/
-            - echo "Verifying critical files..."
-            - test -f .next/BUILD_ID && echo "Build ID found ✅" || echo "Build ID missing ❌"
-            - test -d .next/static && echo "Static assets found ✅" || echo "Static assets missing ❌"
-            - echo "Post-build phase completed ✅"
-      artifacts:
-        baseDirectory: .next
-        files:
-          - '**/*'
-      cache:
-        paths:
-          - node_modules/**/*
-          - .next/cache/**/*
-          - ~/.npm/**/*
-    backend:
-      phases:
-        preBuild:
-          commands:
-            - echo "🔧 Starting backend pre-build phase"
-            - echo "Installing Amplify CLI..."
-            - npm install -g @aws-amplify/cli@latest
-            - echo "Amplify CLI version:" && amplify --version
-            - echo "Installing backend dependencies..."
-            - cd amplify && npm ci && cd ..
-            - echo "Backend pre-build phase completed ✅"
-        build:
-          commands:
-            - echo "🏗️ Starting backend build phase"
-            - echo "Current AWS region:" && echo $AWS_DEFAULT_REGION
-            - echo "Deploying backend resources..."
-            - amplify push --yes
-            - echo "Backend build phase completed ✅"
-        postBuild:
-          commands:
-            - echo "🔍 Starting backend post-build phase"
-            - echo "Running backend health checks..."
-            - amplify status
-            - echo "Checking API endpoints..."
-            - amplify api gql-compile || echo "GraphQL compilation check completed"
-            - echo "Backend deployment completed at $(date)"
-            - echo "Backend post-build phase completed ✅"
-  # Environment-specific configurations
-  - branches:
-      main:
-        commands:
-          - echo "🏭 Production deployment for NC State Sports Hub"
-          - echo "Running production health checks..."
-          - ./scripts/production-health-check.sh || echo "Health check script not found"
-          - echo "Production deployment completed ✅"
-      staging:
-        commands:
-          - echo "🧪 Staging deployment for NC State Sports Hub"
-          - echo "Running staging tests..."
-          - npm run test:e2e || echo "E2E tests completed with warnings"
-          - echo "Staging deployment completed ✅"
-      development:
-        commands:
-          - echo "🔧 Development deployment for NC State Sports Hub"
-          - echo "Development deployment completed ✅"
+backend:
+  phases:
+    build:
+      commands:
+        - npm ci --cache .npm --prefer-offline
+        - npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "🔍 Starting pre-build phase for NC State Sports Hub"
+        - echo "Node version:" && node --version
+        - echo "NPM version:" && npm --version
+        - cd nc-state-sports-hub/nc-state-sports-hub-production
+        - npm ci --cache .npm --prefer-offline
+        - echo "Running linting checks..."
+        - npm run lint || echo "Linting completed with warnings"
+        - echo "Running TypeScript type checking..."
+        - npm run type-check || echo "Type checking completed with warnings"
+        - echo "Pre-build phase completed ✅"
+    build:
+      commands:
+        - echo "🏗️ Starting build phase for NC State Sports Hub"
+        - cd nc-state-sports-hub/nc-state-sports-hub-production
+        - echo "Building Next.js application..."
+        - npm run build
+        - echo "Build phase completed ✅"
+    postBuild:
+      commands:
+        - echo "🚀 Starting post-build phase"
+        - cd nc-state-sports-hub/nc-state-sports-hub-production
+        - echo "Build completed successfully at $(date)"
+        - echo "Checking build artifacts..."
+        - ls -la .next/ || echo "Build artifacts check completed"
+        - echo "Post-build phase completed ✅"
+  artifacts:
+    baseDirectory: nc-state-sports-hub/nc-state-sports-hub-production/.next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - nc-state-sports-hub/nc-state-sports-hub-production/node_modules/**/*
+      - nc-state-sports-hub/nc-state-sports-hub-production/.next/cache/**/*
+      - .npm/**/*

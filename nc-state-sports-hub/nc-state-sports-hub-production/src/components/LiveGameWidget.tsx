@@ -1,4 +1,6 @@
 
+'use client';
+
 import React, { useEffect, useState, useCallback } from 'react';
 import { espnAPI, ESPNGame } from '../lib/espn-api';
 import LoadingSpinner from './LoadingSpinner'; // Assuming this component exists
@@ -32,7 +34,7 @@ const LiveGameWidget: React.FC<LiveGameWidgetProps> = ({ sport }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [sport]);
 
   // useEffect hook to fetch data on component mount and set up auto-refresh
   useEffect(() => {
@@ -94,10 +96,10 @@ const LiveGameWidget: React.FC<LiveGameWidgetProps> = ({ sport }) => {
             {liveGames.map((game) => {
               const competition = game.competitions[0];
               const ncStateCompetitor = competition.competitors.find(
-                (comp) => comp.team.id === espnAPI['NC_STATE_TEAM_ID']
+                (comp) => comp.team.id === espnAPI.NC_STATE_TEAM_ID
               );
               const opponentCompetitor = competition.competitors.find(
-                (comp) => comp.team.id !== espnAPI['NC_STATE_TEAM_ID']
+                (comp) => comp.team.id !== espnAPI.NC_STATE_TEAM_ID
               );
 
               if (!ncStateCompetitor || !opponentCompetitor) return null;
@@ -155,10 +157,10 @@ const LiveGameWidget: React.FC<LiveGameWidgetProps> = ({ sport }) => {
             upcomingGames.map((game) => {
               const competition = game.competitions[0];
               const ncStateCompetitor = competition.competitors.find(
-                (comp) => comp.team.id === espnAPI['NC_STATE_TEAM_ID']
+                (comp) => comp.team.id === espnAPI.NC_STATE_TEAM_ID
               );
               const opponentCompetitor = competition.competitors.find(
-                (comp) => comp.team.id !== espnAPI['NC_STATE_TEAM_ID']
+                (comp) => comp.team.id !== espnAPI.NC_STATE_TEAM_ID
               );
 
               if (!ncStateCompetitor || !opponentCompetitor) return null;

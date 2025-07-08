@@ -1,24 +1,8 @@
 // @ts-nocheck
-import { espnAPI } from '../lib/espn-api';
-import { rssService } from '../lib/rss-feed';
-import { format } from 'date-fns';
 import LiveGameWidget from '../components/LiveGameWidget';
+import NewsFeed from '../components/NewsFeed';
 
 export default async function HomePage() {
-  let featuredNews: any[] = [];
-  
-
-  try {
-    // Fetch real live data
-    const [newsData] = await Promise.all([
-      rssService.getFeaturedNews(),
-    ]);
-
-    featuredNews = newsData.slice(0, 3);
-  } catch (error) {
-    console.error('Failed to fetch homepage data:', error);
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -41,45 +25,7 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Latest News */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Latest News</h2>
-              {featuredNews.length > 0 ? (
-                <div className="space-y-6">
-                  {featuredNews.map((article, index) => (
-                    <div key={article.id} className={`${index === 0 ? 'pb-6 border-b' : 'py-6 border-b'}`}>
-                      <div className="flex justify-between items-start mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900 hover:text-red-600">
-                          <a href={article.link} target="_blank" rel="noopener noreferrer">
-                            {article.title}
-                          </a>
-                        </h3>
-                        <span className="text-sm text-gray-500 ml-4">
-                          {format(new Date(article.pubDate), 'MMM d')}
-                        </span>
-                      </div>
-                      <p className="text-gray-600 mb-3">{article.description}</p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-500">
-                          By {article.author || 'Staff'}
-                        </span>
-                        <a 
-                          href={article.link} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-red-600 hover:text-red-700 font-medium"
-                        >
-                          Read More →
-                        </a>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <p className="text-gray-500">Loading latest news...</p>
-                </div>
-              )}
-            </div>
+            <NewsFeed />
           </div>
 
           {/* Sidebar */}

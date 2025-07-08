@@ -298,6 +298,44 @@ class ESPNAPIService {
   /**
    * Get all NC State sports data (football, basketball, baseball)
    */
+  async searchGames(keyword: string): Promise<ESPNGame[]> {
+    const searchTerm = keyword.toLowerCase();
+    const [footballGames, basketballGames, baseballGames] = await Promise.all([
+      this.getNCStateSchedule('football'),
+      this.getNCStateSchedule('basketball'),
+      this.getNCStateSchedule('baseball'),
+    ]);
+
+    const allGames = [...footballGames, ...basketballGames, ...baseballGames];
+
+    return allGames.filter(game =>
+      game.shortName.toLowerCase().includes(searchTerm) ||
+      game.name.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  /**
+   * Search players by keyword across all sports
+   */
+  async searchPlayers(keyword: string): Promise<ESPNAthlete[]> {
+    const searchTerm = keyword.toLowerCase();
+    const [footballRoster, basketballRoster, baseballRoster] = await Promise.all([
+      this.getNCStateRoster('football'),
+      this.getNCStateRoster('basketball'),
+      this.getNCStateRoster('baseball'),
+    ]);
+
+    const allPlayers = [...footballRoster, ...basketballRoster, ...baseballRoster];
+
+    return allPlayers.filter(player =>
+      player.fullName.toLowerCase().includes(searchTerm) ||
+      player.displayName.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  /**
+   * Get all NC State sports data (football, basketball, baseball)
+   */
   async getAllNCStateSports(): Promise<{
     football: { games: ESPNGame[]; team: ESPNTeam; roster: ESPNAthlete[] };
     basketball: { games: ESPNGame[]; team: ESPNTeam; roster: ESPNAthlete[] };
